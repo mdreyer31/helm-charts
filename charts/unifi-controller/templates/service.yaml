@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "unifi.fullname" . }}-tcp
+  name: {{ include "unifi.fullname" . }}-mixed
   namespace: {{ .Release.Namespace }}  
   labels:
     {{- include "unifi.labels" . | nindent 4 }}
@@ -33,23 +33,6 @@ spec:
     targetPort: 6789
     protocol: TCP
     name: speedtest
-  selector:
-    {{- include "unifi.selectorLabels" . | nindent 4 }}
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: {{ include "unifi.fullname" . }}-udp
-  labels:
-    {{- include "unifi.labels" . | nindent 4 }}
-  {{- with .Values.service.annotations }}
-  annotations:
-    {{- toYaml . | nindent 4 }}
-  {{- end }}
-spec:
-  type: LoadBalancer
-  ports: 
   - port: 10001
     targetPort: 10001
     protocol: UDP
